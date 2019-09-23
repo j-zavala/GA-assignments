@@ -31,52 +31,48 @@ public class Lab {
                         .filter(e -> e.getSalary() >= 50_000)
                         .collect(Collectors.toList());
 
-//        printList(employeesOver50k);
         System.out.println(employeesOver50k);
     }
 
     @Test
     public void getEmployeeNamesHiredAfter2012() {
-        LocalDate ddate = LocalDate.of(2012, Month.JANUARY, 1);
+        LocalDate startDate = LocalDate.of(2012, Month.JANUARY, 1);
+        List<Employee> employeesAfter2012 = employees.stream()
+                .filter(e -> e.getHireDate().isAfter(startDate) || e.getHireDate().equals(startDate))
+                .collect(Collectors.toList());
 
+        System.out.println("Employees hired after 2012:");
+        System.out.println(employeesAfter2012);
 
-        List<String> employees = ;
-//        printList(employees);
-
-
-//        LocalDate d = LocalDate.of(2000, Month.JANUARY, 1);
-//
-//
-//
-//        System.out.println(d);
     }
 
 
     @Test
     public void getMaxSalary() {
-        double max = 0;
+        double max = employees.stream().mapToDouble(Employee::getSalary).max().orElse(0);
+
+
         System.out.println("Max:" + max);
 
     }
 
     @Test
     public void getMinSalary() {
-        double min = 0;
+        double min = employees.stream().mapToDouble(Employee::getSalary).min().orElse(0);
         System.out.println("Min:" + min);
     }
 
     @Test
     public void getAverageSalaries() {
-        double averageMale = 0;
-        double averageFemale = 0;
+        double averageMale = employees.stream().filter(e -> e.getGender() == "Male").mapToDouble(Employee::getSalary).average().orElse(0);
+        double averageFemale = employees.stream().filter(e -> e.getGender() == "Female").mapToDouble(Employee::getSalary).average().orElse(0);
 
-        System.out.println("Averages: Male:" + averageMale + " Female:" + averageFemale);
         System.out.println("Averages: Male:" + averageMale + " Female:" + averageFemale);
     }
 
     @Test
     public void getMaximumPaidEmployee() {
-        Employee highest = null;
+        Employee highest = employees.stream().reduce((a,b) -> a.getSalary() > b.getSalary() ? a : b).get();
         System.out.println(highest);
     }
 }
