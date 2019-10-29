@@ -21,7 +21,7 @@ public class Lab {
 
     private <T> void printList(List<T> list) {
 
-        employees.forEach(System.out::print);
+        list.forEach((i)-> System.out.println(i));
     }
 
     @Test
